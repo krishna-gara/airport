@@ -1,0 +1,88 @@
+@(message: String)
+@main(message){
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 section">
+            <div class="row">
+                <div class="col-md-4">
+                    <input type="text" ng-model="airport" placeholder="Select Airport" uib-typeahead="airport as airport.name for airport in airports | filter:{name:$viewValue}" typeahead-template-url="airportTemplate.html" class="form-control" typeahead-show-hint="true" typeahead-min-length="0" >
+                </div>
+                <div class="col-md-3">
+                    <p class="input-group">
+                        <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="startDate" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="startDateOpen()"><i class="glyphicon glyphicon-calendar"></i></button>
+                         </span>
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <p class="input-group">
+                        <input type="text" class="form-control" uib-datepicker-popup ng-model="endDate" is-open="popup2.opened" datepicker-options="dateOptions" min-date="startDate" ng-required="true" close-text="Close" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="endDateOpen()"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
+                </div>
+                <div class="col-md-2"><input type="button" class="btn btn-default" ng-click="loadFlights()" value="Search"/></div>
+            </div>
+            <div class="col-sm-12">
+                <hr style="border:1px solid #fff"/>
+            </div>
+            <div class="col-sm-12">
+                <div class="col-sm-6">Inbound Flights</div>
+                <div class="col-sm-6">Outbound Flights</div>
+            </div>
+            <div class="col-sm-6">
+                <table class="table">
+                    <tr>
+                        <th>To</th>
+                        <th>Carrier</th>
+                        <th>Dep Time</th>
+                        <th>Arr Time</th>
+                        <th>Air Time</th>
+                        <th>Distance</th>
+                        <th>Total Time</th>
+                    </tr>
+                    <tr ng-repeat="flight in inBoundFlight" ng-if="flight.dest != 'NA'">
+
+                        <td>{{flight.dest}}</td>
+                        <td>{{flight.carrier}}</td>
+                        <td>{{flight.depTime}}</td>
+                        <td>{{flight.arrTime}}</td>
+                        <td>{{flight.airTime}}</td>
+                        <td>{{flight.distance}}</td>
+                        <td>{{flight.hour}}:{{flight.minute}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-6">
+                <table class="table">
+                    <tr>
+                        <th>From</th>
+                        <th>Carrier</th>
+                        <th>Dep Time</th>
+                        <th>Arr Time</th>
+                        <th>Air Time</th>
+                        <th>Distance</th>
+                        <th>Total Time</th>
+                    </tr>
+                    <tr ng-repeat="flight in outBoundFlight" ng-if="flight.dest != 'NA'">
+                        <td>{{flight.origin}}</td>
+                        <td>{{flight.carrier}}</td>
+                        <td>{{flight.depTime}}</td>
+                        <td>{{flight.arrTime}}</td>
+                        <td>{{flight.airTime}}</td>
+                        <td>{{flight.distance}}</td>
+                        <td>{{flight.hour}}:{{flight.minute}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/ng-template" id="airportTemplate.html">
+    <a>
+        <span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
+    </a>
+</script>
+}

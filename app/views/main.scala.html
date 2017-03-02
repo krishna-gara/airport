@@ -1,0 +1,109 @@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+
+<html lang="en" data-ng-app="samples">
+    <head>
+        <title>@title</title>
+        <script src="@routes.Assets.versioned("javascripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("javascripts/angular.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("javascripts/bootstrap.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("javascripts/ui-bootstrap-tpls-1.3.2.min.js")" type="text/javascript"></script>
+
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/bootstrap.min.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/styles.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+
+
+        <script>
+            var samplesApp = angular.module('samples', ['ui.bootstrap']);
+            samplesApp.controller('samplesController', function ($scope, $templateCache, $http, $location) {
+                $scope.outBoundFlight = [];
+                $scope.inBoundFlight = [];
+                var _selected;
+                $scope.selected = undefined;
+                $scope.airports=[];
+                $http({ method: 'GET', url: "airports" })
+                    .success(function (data) {
+                        $scope.airports = data;
+                    })
+                    .error(function (html, status) {
+
+                    });
+                $scope.loadFlights = function(){
+                    $("#spinner").show();
+                    var inBoundProgress = true;
+                    var outBoundProgress = true
+                    var sd = new Date($scope.startDate)
+                    var ed = new Date($scope.endDate)
+                    $http({ method: 'GET', url: "inBoundFlight/"+$scope.airport.faa+"/"+sd.getTime()+"/"+ed.getTime()})
+                    .success(function (data) {
+                      $scope.inBoundFlight = data;
+                      inBoundProgress = false;
+                      if(!outBoundProgress)
+                        $("#spinner").hide();
+                    }).error(function (html, status) {
+                        $("#spinner").hide();
+                    });
+                    $http({ method: 'GET', url: "outBoundFlight/"+$scope.airport.faa+"/"+sd.getTime()+"/"+ed.getTime()})
+                    .success(function (data) {
+                        $scope.outBoundFlight = data;
+                        outBoundProgress = false;
+                      if(!inBoundProgress)
+                        $("#spinner").hide();
+                    }).error(function (html, status) {
+                        $("#spinner").hide();
+                    });
+                    setTimeout(function(){ $("#spinner").hide()}, 2000000);
+                }
+
+
+                $scope.modelOptions = {
+                    debounce: {
+                    default: 500,
+                    blur: 250
+                    },
+                    getterSetter: true
+                };
+                $scope.dateOptions = {
+                    dateDisabled: disabled,
+                    formatYear: 'yy',
+                    maxDate: new Date(2020, 5, 22),
+                    minDate: new Date(),
+                    startingDay: 1
+                 };
+                 $scope.startDate = new Date();
+                    $scope.endDate = new Date();
+
+                 $scope.startDateOpen = function() {
+                    $scope.popup1.opened = true;
+                  };
+
+                  $scope.endDateOpen = function() {
+                    $scope.popup2.opened = true;
+                  };
+                  // Disable weekend selection
+                  function disabled(data) {
+                    var date = data.date,
+                      mode = data.mode;
+                    return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
+                  }
+                  $scope.popup1 = {
+                    opened: false
+                  };
+
+                  $scope.popup2 = {
+                    opened: false
+                  };
+            });
+
+        </script>
+    </head>
+    <body data-ng-controller="samplesController">
+    <div id="spinner" class="spinner">
+        <span class="inner_span"><img ng-src ="@routes.Assets.versioned("images/downloadsSpinner.gif")"/><strong>Loading ... </strong></span>
+        <div class="inner_bg"></div>
+    </div>
+        @content
+    </body>
+</html>

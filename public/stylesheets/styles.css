@@ -1,0 +1,66 @@
+﻿body {
+    margin-left:0px;
+}
+
+.section {
+    background-color: #efefef;
+    height:620px;
+    width:95%;
+}
+.container {
+    width: 99%;
+    margin-left:10px;
+    margin-top: 0px;
+}
+textarea {
+    width: 99%;
+    height: 400px;
+    border: 0px;
+    background: transparent;
+    -webkit-box-shadow: 0px 0px 0px 0px;
+    box-shadow: 0px 0px 0px 0px;
+    font-size: 11pt;
+    font-weight:bold;
+}
+.table{border:1px solid #ddd; font-size:12px; }
+.table > thead > tr > th{background:#ccc;}
+.table > thead > tr th{background:#66ACCA; color:#fff; padding: 0px; border-left: 0px; border-right: 0px!important;}
+.typeahead-demo .custom-popup-wrapper {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    background-color: #f9f9f9;
+  }
+
+  .typeahead-demo .custom-popup-wrapper > .message {
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    color: #868686;
+  }
+
+  .typeahead-demo .custom-popup-wrapper > .dropdown-menu {
+    position: static;
+    float: none;
+    display: block;
+    min-width: 160px;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+.full button span {
+    background-color: limegreen;
+    border-radius: 32px;
+    color: black;
+  }
+  .partially button span {
+    background-color: orange;
+    border-radius: 32px;
+    color: black;
+  }
+.spinner{position:fixed; left:0px; top:0px; width:100%; height:100%; z-index:99999; display: none;}
+.spinner .inner_span{top:45%; left:49%; width:130px; height:54px; margin-left: -65px; padding:15px; position:absolute; background:#222; color:#fef; border-radius:30px; box-shadow:0 0 10px 1px #fff; }
+.spinner .inner_span strong{float:right; margin-top: 3px;}
+.spinner .inner_bg{position:absolute; left:0px; top:0px; width:100%; height:100%; background:#73879C; opacity:0.3;}
